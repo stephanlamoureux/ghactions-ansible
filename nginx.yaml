@@ -4,6 +4,11 @@
   remote_user: ubuntu
 
   tasks:
+
+  - name: update
+    apt:
+      update_cache: true
+
   - name: Install Nginx
     apt:
       name: nginx
