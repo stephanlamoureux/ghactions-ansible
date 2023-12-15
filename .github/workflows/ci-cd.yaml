@@ -33,6 +33,6 @@
           chmod 600 ~/.ssh/id_rsa
 
       - name: Run Ansible Playbook
-        run: ansible-playbook -i aws_ec2.yaml nginx.yml
+        run: ansible-playbook -i aws_ec2.yaml nginx.yaml
         env:
           ANSIBLE_HOST_KEY_CHECKING: False
