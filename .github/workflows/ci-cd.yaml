@@ -1,0 +1,38 @@
+---
+  name: 'Terraform CI/CD'
+
+  on:
+    push:
+      branches:
+        - main
+
+  jobs:
+    terraform:
+      runs-on: ubuntu-latest
+
+      steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install Ansible
+        run: pip install ansible
+
+      - name: List dynamic server
+        run: ansible-inventory --graph -i aws_ec2.yaml
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Run Ansible Playbook
+        run: ansible-playbook -i aws_ec2.yaml nginx.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: False

@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: yes
+  remote_user: ubuntu
+
+  tasks:
+  - name: Install Nginx
+    apt:
+      name: nginx
+      state: present
+
+  - name: Copy Website Files
+    copy:
+      src: index.html
+      dest: /var/www/html/
+      mode: '0644'
